@@ -1,0 +1,58 @@
+<div class="container-fluid px-3 py-4">
+  <!-- Header -->
+  <div class="text-center mb-4">
+    <h1 class="service-header">SERVICE ENTREPRISE</h1>
+  </div>
+
+  <!-- Banner Card -->
+  <div class="card banner-card shadow-lg border-0">
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white py-5">
+      <h1 class="display-3 fw-bold mb-3">1000TEK</h1>
+      <h2 class="display-6 fw-bold">VOTRE PARTENAIRE DE SUCCÈS</h2>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="card-body p-0">
+      <div class="row g-0">
+        <!-- Phone -->
+        <div class="col-lg-4 col-md-12">
+          <div class="contact-card text-center p-5 h-100">
+            <div class="icon-circle mx-auto mb-4">
+              <i class="bi bi-telephone-fill">📞</i>
+            </div>
+            <h5 class="contact-label mb-2">Tél: {{ contactInfo.phone }}</h5>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="col-lg-4 col-md-12 border-start border-end">
+          <div class="contact-card text-center p-5 h-100">
+            <div class="icon-circle mx-auto mb-4">
+              <i class="bi bi-envelope-fill">📧</i>
+            </div>
+            <h5 class="contact-label mb-2">
+              Mail: 
+              <a [href]="'mailto:' + contactInfo.email" class="email-link">
+                {{ contactInfo.email }}
+              </a>
+            </h5>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="col-lg-4 col-md-12">
+          <div class="contact-card text-center p-5 h-100">
+            <div class="icon-circle mx-auto mb-4">
+              <i class="bi bi-geo-alt-fill">📍</i>
+            </div>
+            <h5 class="contact-label mb-2">
+              {{ contactInfo.address.street }}<br>
+              {{ contactInfo.address.city }}
+            </h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

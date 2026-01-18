@@ -1,0 +1,176 @@
+.footer {
+  background-color: #f5f5f5;
+  padding: 40px 20px 20px;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px;
+  margin-bottom: 30px;
+}
+
+/* Logo Section */
+.logo-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.footer-logo {
+  width: 150px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.address {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #7cb342;
+  font-size: 14px;
+}
+
+.location-icon {
+  font-size: 18px;
+  margin-top: 2px;
+}
+
+.address p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Contact Section */
+.contact-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.phone-icon,
+.email-icon {
+  font-size: 20px;
+  color: #7cb342;
+}
+
+.phone-number {
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.phone-number:hover {
+  color: #7cb342;
+}
+
+.hours {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+}
+
+.email {
+  color: #7cb342;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.email:hover {
+  text-decoration: underline;
+}
+
+/* Links Section */
+.links-section h3 {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.links-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.links-list li {
+  margin-bottom: 12px;
+}
+
+.links-list a {
+  color: #666;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.links-list a:hover {
+  color: #7cb342;
+}
+
+/* Copyright Section */
+.copyright {
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.copyright p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.powered-by-logo {
+  height: 20px;
+  width: auto;
+  vertical-align: middle;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  .copyright p {
+    flex-direction: column;
+    gap: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 30px 15px 15px;
+  }
+
+  .phone-number {
+    font-size: 20px;
+  }
+
+  .footer-logo {
+    width: 120px;
+  }
+}

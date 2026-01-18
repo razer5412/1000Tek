@@ -1,0 +1,46 @@
+<footer class="footer">
+  <div class="footer-container">
+    <!-- Logo Section -->
+    <div class="footer-section logo-section">
+      <img src="assets/images/logo.png" alt="1000 TEK Logo" class="footer-logo">
+      <div class="address">
+        <i class="location-icon">📍</i>
+        <p>{{ contactInfo.address }}</p>
+      </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="footer-section contact-section">
+      <h3>Besoin d'aide ?</h3>
+      <div class="contact-item">
+        <i class="phone-icon">📞</i>
+        <div>
+          <a href="tel:{{ contactInfo.phone }}" class="phone-number">{{ contactInfo.phone }}</a>
+          <p class="hours">{{ contactInfo.hours }}</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <i class="email-icon">✉️</i>
+        <a href="mailto:{{ contactInfo.email }}" class="email">{{ contactInfo.email }}</a>
+      </div>
+    </div>
+
+    <!-- Legal Links Section -->
+    <div class="footer-section links-section">
+      <h3>Conditions générales de vente</h3>
+      <ul class="links-list">
+        <li *ngFor="let link of links.conditions">
+          <a [routerLink]="link.url" (click)="scrollToTop()">{{ link.label }}</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Copyright Section -->
+  <div class="copyright">
+    <p>
+      Copyright © {{ currentYear }} 1000 TEK | Tous droits réservés | Powered by 
+      <img src="assets/images/kickstart-logo.png" alt="Kickstart" class="powered-by-logo">
+    </p>
+  </div>
+</footer>

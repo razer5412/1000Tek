@@ -1,0 +1,37 @@
+<nav class="mega-menu-container">
+  <ul class="main-menu">
+    <li 
+      *ngFor="let category of categories" 
+      class="menu-item"
+      (mouseenter)="showMegaMenu(category.name)"
+      (mouseleave)="hideMegaMenu()"
+    >
+      <a [routerLink]="category.url" class="menu-link">
+        {{ category.name }}
+        <span class="dropdown-icon" *ngIf="category.sections">▼</span>
+      </a>
+
+      <!-- Mega Menu Dropdown -->
+      <div 
+        class="mega-menu-dropdown" 
+        *ngIf="category.sections && activeCategory === category.name"
+      >
+        <div class="mega-menu-content">
+          <div 
+            class="mega-menu-column" 
+            *ngFor="let section of category.sections"
+          >
+            <h3 class="section-title">{{ section.title }}</h3>
+            <ul class="section-list">
+              <li *ngFor="let item of section.items">
+                <a [routerLink]="item.url" class="section-link">
+                  {{ item.name }}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+</nav>
