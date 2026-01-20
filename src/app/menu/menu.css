@@ -1,7 +1,8 @@
 .mega-menu-container {
-  background: linear-gradient(135deg, #3b8686 0%, #80908a 100%);
+  background: linear-gradient(135deg, #3b8686 0%, #114b4b 100%);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 1000;
 }
 
@@ -23,7 +24,7 @@
 .menu-link {
   display: flex;
   align-items: center;
-  gap: 5px;
+  gap: 8px;
   padding: 15px 20px;
   color: white;
   text-decoration: none;
@@ -31,6 +32,7 @@
   font-weight: 500;
   transition: all 0.3s ease;
   white-space: nowrap;
+  cursor: pointer;
 }
 
 .menu-link:hover {
@@ -38,8 +40,17 @@
   color: #ffd700;
 }
 
+.category-icon {
+  font-size: 18px;
+}
+
+.category-name {
+  font-weight: 600;
+}
+
 .dropdown-icon {
   font-size: 10px;
+  margin-left: 4px;
   transition: transform 0.3s ease;
 }
 
@@ -57,8 +68,8 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   padding: 30px;
-  min-width: 800px;
-  max-width: 1200px;
+  min-width: 600px;
+  max-width: 900px;
   animation: fadeInDown 0.3s ease;
   z-index: 999;
 }
@@ -76,17 +87,17 @@
 
 .mega-menu-content {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
 }
 
 .mega-menu-column {
-  min-width: 180px;
+  min-width: 250px;
 }
 
 .section-title {
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   color: #3b8686;
   margin: 0 0 15px 0;
   padding-bottom: 10px;
@@ -106,15 +117,18 @@
 .section-link {
   color: #555;
   text-decoration: none;
-  font-size: 13px;
+  font-size: 14px;
   display: block;
-  padding: 5px 0;
+  padding: 8px 12px;
+  border-radius: 4px;
   transition: all 0.2s ease;
+  cursor: pointer;
 }
 
 .section-link:hover {
+  background-color: #f0f9f9;
   color: #3b8686;
-  padding-left: 8px;
+  padding-left: 16px;
 }
 
 /* Responsive Design */
@@ -131,7 +145,7 @@
   }
 
   .mega-menu-dropdown {
-    min-width: 600px;
+    min-width: 500px;
     padding: 20px;
   }
 
@@ -142,6 +156,15 @@
 }
 
 @media (max-width: 768px) {
+  .menu-link {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
+
+  .category-icon {
+    font-size: 16px;
+  }
+
   .mega-menu-dropdown {
     min-width: 90vw;
     left: 5%;
@@ -154,17 +177,12 @@
     gap: 15px;
   }
 
-  .menu-link {
-    padding: 10px 12px;
-    font-size: 12px;
-  }
-
   .section-title {
     font-size: 14px;
   }
 
   .section-link {
-    font-size: 12px;
+    font-size: 13px;
   }
 }
 
@@ -175,11 +193,13 @@
 
   .menu-item {
     width: 100%;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   }
 
   .menu-link {
     justify-content: space-between;
     width: 100%;
+    padding: 15px 20px;
   }
 
   .mega-menu-dropdown {

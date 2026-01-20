@@ -2,20 +2,11 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-export interface SubCategory {
-  name: string;
-  url: string;
-}
-
-export interface CategorySection {
-  title: string;
-  items: SubCategory[];
-}
-
-export interface Category {
-  name: string;
-  url: string;
-  sections?: CategorySection[];
+export interface MenuCategory {
+  id: number;
+  name: string;         // ex: "laptop"
+  displayName: string;  // ex: "Laptops"
+  icon: string;         // ex: 💻
 }
 
 @Injectable({
@@ -26,11 +17,11 @@ export class MenuService {
 
   constructor(private http: HttpClient) {}
 
-  getCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(this.apiUrl);
+  getCategories(): Observable<MenuCategory[]> {
+    return this.http.get<MenuCategory[]>(this.apiUrl);
   }
 
-  getCategoryByUrl(url: string): Observable<Category> {
-    return this.http.get<Category>(`${this.apiUrl}?url=${url}`);
+  getCategoryByName(name: string): Observable<MenuCategory[]> {
+    return this.http.get<MenuCategory[]>(`${this.apiUrl}?name=${name}`);
   }
 }

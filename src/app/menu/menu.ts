@@ -1,46 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { MenuService,Category } from '../menu';
+import { Router } from '@angular/router';
+import { DataService,MenuItem } from '../data';
 
 @Component({
   selector: 'app-menu',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule],
   templateUrl: './menu.html',
   styleUrls: ['./menu.css']
 })
-export class Menu implements OnInit {
-  categories: Category[] = [];
-  activeCategory: string | null = null;
-  loading = true;
-  error: string | null = null;
+export class MenuComponent implements OnInit {
+  menuItems: MenuItem[] = [];
+  activeMenu: string | null = null;
 
-  constructor(private menuService: MenuService) {}
+  constructor(
+    private dataService: DataService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loadCategories();
+    this.menuItems = this.dataService.getMenuStructure();
   }
 
-  loadCategories(): void {
-    this.menuService.getCategories().subscribe({
-      next: (data) => {
-        this.categories = data;
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Error loading categories:', err);
-        this.error = 'Failed to load menu categories';
-        this.loading = false;
-      }
-    });
-  }
-
-  showMegaMenu(category: string): void {
-    this.activeCategory = category;
+  showMegaMenu(menuSlug: string): void {
+    this.activeMenu = menuSlug;
   }
 
   hideMegaMenu(): void {
-    this.activeCategory = null;
+    this.activeMenu = null;
+  }
+
+  navigateToCategory(category: string): void {
+    this.dataService.setSelectedCategory(category);
+    this.router.navigate(['/products'], { 
+      queryParams: { category: category } 
+    });
+    this.hideMegaMenu();
+  }
+
+  navigateToMainCategory(menuSlug: string): void {
+    this.router.navigate(['/products']);
+    this.hideMegaMenu();
   }
 }

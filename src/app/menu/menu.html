@@ -1,30 +1,37 @@
 <nav class="mega-menu-container">
   <ul class="main-menu">
     <li 
-      *ngFor="let category of categories" 
+      *ngFor="let menu of menuItems" 
       class="menu-item"
-      (mouseenter)="showMegaMenu(category.name)"
+      (mouseenter)="showMegaMenu(menu.slug)"
       (mouseleave)="hideMegaMenu()"
     >
-      <a [routerLink]="category.url" class="menu-link">
-        {{ category.name }}
-        <span class="dropdown-icon" *ngIf="category.sections">▼</span>
+      <a 
+        class="menu-link"
+        (click)="navigateToMainCategory(menu.slug)"
+      >
+        <span class="category-icon">{{ menu.icon }}</span>
+        <span class="category-name">{{ menu.displayName }}</span>
+        <span class="dropdown-icon">▼</span>
       </a>
 
       <!-- Mega Menu Dropdown -->
       <div 
         class="mega-menu-dropdown" 
-        *ngIf="category.sections && activeCategory === category.name"
+        *ngIf="activeMenu === menu.slug"
       >
         <div class="mega-menu-content">
           <div 
             class="mega-menu-column" 
-            *ngFor="let section of category.sections"
+            *ngFor="let section of menu.sections"
           >
             <h3 class="section-title">{{ section.title }}</h3>
             <ul class="section-list">
               <li *ngFor="let item of section.items">
-                <a [routerLink]="item.url" class="section-link">
+                <a 
+                  class="section-link"
+                  (click)="navigateToCategory(item.category)"
+                >
                   {{ item.name }}
                 </a>
               </li>

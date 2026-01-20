@@ -1,46 +1,98 @@
-<!-- src/app/components/products/products.component.html -->
-<div class="products-container">
-  <div class="header">
-    <h1>Our Products</h1>
-    <p>Browse our collection of tech products</p>
-  </div>
+<div class="products-page">
+  <div class="container">
+    <!-- Page Header -->
+    <div class="page-header">
+      <h1 class="page-title">{{ categoryDisplayName }}</h1>
+      <p class="products-count">{{ products.length }} produit(s)</p>
+    </div>
 
-  <!-- Category Filter -->
-  <div class="category-filter">
-    <button 
-      *ngFor="let cat of categories"
-      [class.active]="selectedCategory === cat.name"
-      (click)="onCategoryChange(cat.name)"
-      class="category-btn">
-      {{ cat.displayName }}
-    </button>
-  </div>
+    <!-- Category Filter Sidebar -->
+    <div class="page-content">
+      <aside class="sidebar">
+        <div class="filter-section">
+          <h3 class="filter-title">Catégories</h3>
+          <ul class="category-list">
+            <li>
+              <button 
+                class="category-filter-btn"
+                [class.active]="!selectedCategory"
+                (click)="showAllProducts()"
+              >
+                <span class="category-icon">📦</span>
+                Tous les produits
+              </button>
+            </li>
+            <li *ngFor="let category of categories">
+              <button 
+                class="category-filter-btn"
+                [class.active]="selectedCategory === category.name"
+                (click)="filterByCategory(category.name)"
+              >
+                <span class="category-icon">{{ category.icon }}</span>
+                {{ category.displayName }}
+              </button>
+            </li>
+          </ul>
+        </div>
+      </aside>
 
-  <!-- Loading State -->
-  <div *ngIf="loading" class="loading">
-    <p>Loading products...</p>
-  </div>
+      <!-- Products Section -->
+      <div class="products-section">
+        <!-- Loading State -->
+        <div *ngIf="isLoading" class="loading">
+          <div class="spinner"></div>
+          <p>Chargement des produits...</p>
+        </div>
 
-  <!-- Products Grid -->
-  <div *ngIf="!loading && products.length > 0" class="products-grid">
-    <div *ngFor="let product of products" class="product-card">
-      <img [src]="product.image" [alt]="product.name" class="product-image">
-      <div class="product-info">
-        <h3>{{ product.name }}</h3>
-        <p class="description">{{ product.description }}</p>
-        <p class="category-badge">{{ product.category }}</p>
-        <div class="product-footer">
-          <span class="price">{{ product.price | currency:'USD' }}</span>
-          <button (click)="viewProduct(product.id)" class="view-btn">
-            View Details
+        <!-- Empty State -->
+        <div *ngIf="!isLoading && products.length === 0" class="empty-state">
+          <div class="empty-icon">📦</div>
+          <h2>Aucun produit trouvé</h2>
+          <p>Essayez une autre catégorie</p>
+          <button class="btn-primary" (click)="showAllProducts()">
+            Voir tous les produits
           </button>
+        </div>
+
+        <!-- Products Grid -->
+        <div *ngIf="!isLoading && products.length > 0" class="products-grid">
+          <div *ngFor="let product of products" class="product-card">
+            <!-- Stock Badge -->
+            <div class="stock-badge" [class.out-of-stock]="!product.inStock">
+              {{ product.inStock ? 'En stock' : 'Rupture' }}
+            </div>
+
+            <div class="wishlist-btn">
+              <i class="heart-icon">♡</i>
+            </div>
+            
+            <div class="product-image">
+              <img [src]="product.image" [alt]="product.name">
+            </div>
+
+            <div class="product-info">
+              <p class="product-brand">{{ product.brand }}</p>
+              <h3 class="product-title">{{ product.name }}</h3>
+              <p class="product-description">{{ product.description }}</p>
+              
+              <div class="product-rating">
+                <span class="stars filled">{{ getStarRating(product.rating) }}</span>
+                <span class="rating-value">({{ product.rating }})</span>
+              </div>
+
+              <p class="product-price">{{ product.price.toFixed(3) }} TND</p>
+
+              <button 
+                class="add-to-cart-btn" 
+                (click)="addToCart(product)"
+                [disabled]="!product.inStock"
+              >
+                {{ product.inStock ? 'AJOUTER AU PANIER' : 'RUPTURE DE STOCK' }}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-
-  <!-- Empty State -->
-  <div *ngIf="!loading && products.length === 0" class="empty-state">
-    <p>No products found in this category.</p>
   </div>
 </div>

@@ -7,16 +7,12 @@ import { Panier } from './panier/panier';
 import { ProductsComponent } from './product/product';
 
 export const routes: Routes = [
-   { path: '', component: Home }, 
+  { path: '', component: Home },
   { path: 'contact', component: Contact },
   { path: 'service', component: Service },
   { path: 'about', component: About },
   { path: 'panier', component: Panier },
-   { path: 'products', component: ProductsComponent },
-  // Add more routes as needed
-  // { path: 'product/:id', component: ProductDetailComponent },
-  { path: '**', redirectTo: '', pathMatch: 'full' }
-
+  { path: 'products', component: ProductsComponent },
+  { path: 'category/:name', component: ProductsComponent }
 ];
-
 
