@@ -1,0 +1,46 @@
+<!-- src/app/components/products/products.component.html -->
+<div class="products-container">
+  <div class="header">
+    <h1>Our Products</h1>
+    <p>Browse our collection of tech products</p>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="category-filter">
+    <button 
+      *ngFor="let cat of categories"
+      [class.active]="selectedCategory === cat.name"
+      (click)="onCategoryChange(cat.name)"
+      class="category-btn">
+      {{ cat.displayName }}
+    </button>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="loading">
+    <p>Loading products...</p>
+  </div>
+
+  <!-- Products Grid -->
+  <div *ngIf="!loading && products.length > 0" class="products-grid">
+    <div *ngFor="let product of products" class="product-card">
+      <img [src]="product.image" [alt]="product.name" class="product-image">
+      <div class="product-info">
+        <h3>{{ product.name }}</h3>
+        <p class="description">{{ product.description }}</p>
+        <p class="category-badge">{{ product.category }}</p>
+        <div class="product-footer">
+          <span class="price">{{ product.price | currency:'USD' }}</span>
+          <button (click)="viewProduct(product.id)" class="view-btn">
+            View Details
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!loading && products.length === 0" class="empty-state">
+    <p>No products found in this category.</p>
+  </div>
+</div>
