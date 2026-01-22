@@ -56,13 +56,13 @@
 
         <!-- Products Grid -->
         <div *ngIf="!isLoading && products.length > 0" class="products-grid">
-          <div *ngFor="let product of products" class="product-card">
+          <div *ngFor="let product of products" class="product-card" (click)="viewProductDetail(product.id)">
             <!-- Stock Badge -->
             <div class="stock-badge" [class.out-of-stock]="!product.inStock">
               {{ product.inStock ? 'En stock' : 'Rupture' }}
             </div>
 
-            <div class="wishlist-btn">
+            <div class="wishlist-btn" (click)="$event.stopPropagation()">
               <i class="heart-icon">♡</i>
             </div>
             
@@ -84,7 +84,7 @@
 
               <button 
                 class="add-to-cart-btn" 
-                (click)="addToCart(product)"
+                (click)="addToCart(product); $event.stopPropagation()"
                 [disabled]="!product.inStock"
               >
                 {{ product.inStock ? 'AJOUTER AU PANIER' : 'RUPTURE DE STOCK' }}

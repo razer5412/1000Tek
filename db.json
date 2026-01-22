@@ -154,7 +154,14 @@
     { "id": 7, "name": "electromenager", "displayName": "Électroménager", "icon": "🧺" },
     { "id": 8, "name": "securite", "displayName": "Sécurité", "icon": "📹" }
   ],
+    "users": [
+  {
+    "id": 1,
+    "name": "Sami",
+    "email": "sami@gmail.com",
+    "password": "123456",
+    "role": "user"
+  }
+]
 
-  "orders": [],
-  "users": []
 }

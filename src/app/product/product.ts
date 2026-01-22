@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService,Product,Category } from '../data';
+import { DataService,Category,Product } from '../data';
 
 @Component({
   selector: 'app-products',
@@ -90,6 +90,10 @@ export class ProductsComponent implements OnInit {
 
   showAllProducts(): void {
     this.router.navigate(['/products']);
+  }
+
+  viewProductDetail(productId: number): void {
+    this.router.navigate(['/product', productId]);
   }
 
   addToCart(product: Product): void {

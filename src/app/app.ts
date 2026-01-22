@@ -3,7 +3,6 @@ import { RouterOutlet } from '@angular/router';
 import { Navbar } from './navbar/navbar';
 import { Footer } from './footer/footer';
 import { MenuComponent } from './menu/menu';
-
 @Component({
   selector: 'app-root',
   standalone: true,
