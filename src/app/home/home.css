@@ -1,4 +1,21 @@
+/* Make product cards clickable */
+.product-card {
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
 
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Prevent pointer cursor on buttons inside card */
+.add-to-cart-btn,
+.wishlist-btn {
+  cursor: pointer;
+}
+
+/* Add this to your existing home.css file */
 /* Brands Section */
 .brands-section {
   padding: 80px 0;

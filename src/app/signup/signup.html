@@ -1,14 +1,20 @@
 <div class="auth-container">
-  <h2>Sign Up</h2>
+  <h2>Inscription</h2>
 
-  <input type="text" placeholder="Name" [(ngModel)]="user.name">
+  @if (errorMessage) {
+    <div class="error-message">
+      {{ errorMessage }}
+    </div>
+  }
+
+  <input type="text" placeholder="Nom" [(ngModel)]="user.name">
   <input type="email" placeholder="Email" [(ngModel)]="user.email">
-  <input type="password" placeholder="Password" [(ngModel)]="user.password">
+  <input type="password" placeholder="Mot de passe" [(ngModel)]="user.password">
 
-  <button (click)="signup()">Create Account</button>
+  <button (click)="signup()">Créer un compte</button>
 
   <p>
-    Already have an account?
-    <a routerLink="/login">Login</a>
+    Vous avez déjà un compte?
+    <a routerLink="/login">Se connecter</a>
   </p>
 </div>

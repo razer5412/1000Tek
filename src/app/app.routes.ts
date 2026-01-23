@@ -22,6 +22,7 @@ export const routes: Routes = [
   { path: 'panier', component: Panier },
   { path: 'login', component: LoginComponent },
   { path: 'products', component: ProductsComponent },
-  { path: 'category/:name', component: ProductsComponent }
+  { path: 'category/:name', component: ProductsComponent },
+  {path:'signup',component:SignupComponent}
 ];
 

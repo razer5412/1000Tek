@@ -1,7 +1,7 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Dell XPS 13",
       "category": "laptop",
       "price": 999,
@@ -12,7 +12,7 @@
       "rating": 4.5
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "MacBook Pro 14",
       "category": "laptop",
       "price": 1999,
@@ -23,7 +23,7 @@
       "rating": 4.8
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Gaming PC RTX 4080",
       "category": "pc",
       "price": 2499,
@@ -34,7 +34,7 @@
       "rating": 4.9
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Office Desktop PC",
       "category": "pc",
       "price": 599,
@@ -42,12 +42,10 @@
       "description": "Reliable desktop for office productivity",
       "brand": "HP",
       "inStock": true,
-      "rating": 4.0
+      "rating": 4
     },
-
-   
     {
-      "id": 5,
+      "id": "5",
       "name": "Logitech MX Master 3",
       "category": "informatique",
       "price": 99,
@@ -58,7 +56,7 @@
       "rating": 4.8
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Mechanical Keyboard RGB",
       "category": "informatique",
       "price": 129,
@@ -68,10 +66,8 @@
       "inStock": true,
       "rating": 4.6
     },
-
-  
     {
-      "id": 7,
+      "id": "7",
       "name": "iPhone 15 Pro",
       "category": "telephonie",
       "price": 1399,
@@ -82,7 +78,7 @@
       "rating": 4.9
     },
     {
-      "id": 8,
+      "id": "8",
       "name": "Samsung Galaxy S24",
       "category": "telephonie",
       "price": 1099,
@@ -92,10 +88,8 @@
       "inStock": true,
       "rating": 4.7
     },
-
-    
     {
-      "id": 9,
+      "id": "9",
       "name": "Samsung Smart TV 55\"",
       "category": "tv",
       "price": 799,
@@ -106,7 +100,7 @@
       "rating": 4.6
     },
     {
-      "id": 10,
+      "id": "10",
       "name": "JBL Bluetooth Speaker",
       "category": "audio",
       "price": 149,
@@ -116,10 +110,8 @@
       "inStock": true,
       "rating": 4.5
     },
-
-
     {
-      "id": 11,
+      "id": "11",
       "name": "LG Washing Machine 9kg",
       "category": "electromenager",
       "price": 699,
@@ -129,10 +121,8 @@
       "inStock": true,
       "rating": 4.4
     },
-
-
     {
-      "id": 12,
+      "id": "12",
       "name": "WiFi Security Camera",
       "category": "securite",
       "price": 89,
@@ -143,25 +133,70 @@
       "rating": 4.3
     }
   ],
-
   "categories": [
-    { "id": 1, "name": "laptop", "displayName": "Laptops", "icon": "💻" },
-    { "id": 2, "name": "pc", "displayName": "Desktop PCs", "icon": "🖥️" },
-    { "id": 3, "name": "informatique", "displayName": "Accessoires Informatique", "icon": "⌨️" },
-    { "id": 4, "name": "telephonie", "displayName": "Téléphonie", "icon": "📱" },
-    { "id": 5, "name": "tv", "displayName": "TV & Vidéo", "icon": "📺" },
-    { "id": 6, "name": "audio", "displayName": "Audio", "icon": "🎧" },
-    { "id": 7, "name": "electromenager", "displayName": "Électroménager", "icon": "🧺" },
-    { "id": 8, "name": "securite", "displayName": "Sécurité", "icon": "📹" }
+    {
+      "id": "1",
+      "name": "laptop",
+      "displayName": "Laptops",
+      "icon": "💻"
+    },
+    {
+      "id": "2",
+      "name": "pc",
+      "displayName": "Desktop PCs",
+      "icon": "🖥️"
+    },
+    {
+      "id": "3",
+      "name": "informatique",
+      "displayName": "Accessoires Informatique",
+      "icon": "⌨️"
+    },
+    {
+      "id": "4",
+      "name": "telephonie",
+      "displayName": "Téléphonie",
+      "icon": "📱"
+    },
+    {
+      "id": "5",
+      "name": "tv",
+      "displayName": "TV & Vidéo",
+      "icon": "📺"
+    },
+    {
+      "id": "6",
+      "name": "audio",
+      "displayName": "Audio",
+      "icon": "🎧"
+    },
+    {
+      "id": "7",
+      "name": "electromenager",
+      "displayName": "Électroménager",
+      "icon": "🧺"
+    },
+    {
+      "id": "8",
+      "name": "securite",
+      "displayName": "Sécurité",
+      "icon": "📹"
+    }
   ],
-    "users": [
-  {
-    "id": 1,
-    "name": "Sami",
-    "email": "sami@gmail.com",
-    "password": "123456",
-    "role": "user"
-  }
-]
-
+  "users": [
+    {
+      "id": "1",
+      "name": "Sami",
+      "email": "sami@gmail.com",
+      "password": "123456",
+      "role": "user"
+    },
+    {
+      "id": "498d",
+      "name": "samir",
+      "email": "samir@gmail.com",
+      "password": "123456",
+      "role": "user"
+    }
+  ]
 }
