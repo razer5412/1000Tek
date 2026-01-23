@@ -1,72 +1,41 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { DataService,Product } from '../data';
-
-interface StoreAvailability {
-  store: string;
-  available: boolean;
-}
-
-interface PaymentPlan {
-  months: number;
-  selected: boolean;
-}
+import { ActivatedRoute, Router } from '@angular/router';
+import { DataService, Product } from '../data';
+import { CartService } from '../cart';
 
 @Component({
   selector: 'app-product-detail',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './detail.html',
   styleUrls: ['./detail.css']
 })
 export class Detail implements OnInit {
   product: Product | null = null;
-  selectedImage: string = '';
-  productImages: string[] = [];
-  quantity: number = 1;
   isLoading = true;
-
-  storeAvailability: StoreAvailability[] = [
-    { store: 'Boutique Tunis', available: true },
-    { store: 'Sousse', available: true },
-    { store: 'Sfax', available: true },
-    { store: 'Tunis Drive-in', available: true }
-  ];
-
-  paymentPlans: PaymentPlan[] = [
-    { months: 12, selected: false },
-    { months: 9, selected: false },
-    { months: 6, selected: false },
-    { months: 3, selected: true }
-  ];
+  quantity = 1;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const productId = +params['id'];
+      const productId = params['id'];  // Pas besoin de convertir en number, c'est déjà string
       this.loadProduct(productId);
     });
   }
 
-  loadProduct(id: number): void {
+  loadProduct(id: string): void {  // Changé à string
     this.dataService.getProductById(id).subscribe({
       next: (product) => {
         this.product = product;
-        this.selectedImage = product.image;
-        // Generate multiple images (in real app, these would come from API)
-        this.productImages = [
-          product.image,
-          product.image,
-          product.image,
-          product.image
-        ];
         this.isLoading = false;
       },
       error: (error) => {
@@ -76,12 +45,34 @@ export class Detail implements OnInit {
     });
   }
 
-  selectImage(image: string): void {
-    this.selectedImage = image;
+  addToCart(): void {
+    if (!this.product) return;
+    
+    if (!this.product.inStock) {
+      alert('Ce produit n\'est pas disponible en stock!');
+      return;
+    }
+
+    const cartProduct = {
+      id: this.product.id,
+      name: this.product.name,
+      price: this.product.price,
+      image: this.product.image,
+      maxStock: 10
+    };
+
+    // Ajouter la quantité sélectionnée
+    for (let i = 0; i < this.quantity; i++) {
+      this.cartService.addToCart(cartProduct);
+    }
+    
+    alert(`${this.product.name} (x${this.quantity}) a été ajouté au panier!`);
   }
 
   increaseQuantity(): void {
-    this.quantity++;
+    if (this.product && this.quantity < 10) {
+      this.quantity++;
+    }
   }
 
   decreaseQuantity(): void {
@@ -90,31 +81,13 @@ export class Detail implements OnInit {
     }
   }
 
-  selectPaymentPlan(months: number): void {
-    this.paymentPlans.forEach(plan => {
-      plan.selected = plan.months === months;
-    });
+  goBack(): void {
+    this.router.navigate(['/products']);
   }
 
-  addToCart(): void {
-    if (this.product) {
-      console.log('Adding to cart:', this.product, 'Quantity:', this.quantity);
-      alert(`${this.product.name} ajouté au panier!`);
-    }
-  }
-
-  addToFavorites(): void {
-    if (this.product) {
-      console.log('Adding to favorites:', this.product);
-      alert('Ajouté aux favoris!');
-    }
-  }
-
-  compareProduct(): void {
-    if (this.product) {
-      console.log('Compare product:', this.product);
-      alert('Produit ajouté à la comparaison!');
-    }
+  goToCheckout(): void {
+    this.addToCart();
+    this.router.navigate(['/panier']);
   }
 
   getStarRating(rating: number): string {
@@ -125,16 +98,5 @@ export class Detail implements OnInit {
     return '★'.repeat(fullStars) + 
            (halfStar ? '☆' : '') + 
            '☆'.repeat(emptyStars);
-  }
-
-  calculateDiscount(): number {
-    if (!this.product) return 0;
-    const originalPrice = this.product.price * 1.5; // Simulate original price
-    return Math.round(originalPrice - this.product.price);
-  }
-
-  getOriginalPrice(): number {
-    if (!this.product) return 0;
-    return this.product.price * 1.5; // Simulate original price
   }
 }

@@ -1,7 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService,Category,Product } from '../data';
+import { DataService, Category, Product } from '../data';
+import { CartService } from '../cart';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +23,8 @@ export class ProductsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private dataService: DataService
+    private dataService: DataService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +39,17 @@ export class ProductsComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading categories:', error);
+        // Catégories par défaut en cas d'erreur
+        this.categories = [
+          { id: '1', name: 'laptop', displayName: 'Laptops', icon: '💻' },
+          { id: '2', name: 'pc', displayName: 'Desktop PCs', icon: '🖥️' },
+          { id: '3', name: 'informatique', displayName: 'Accessoires Informatique', icon: '⌨️' },
+          { id: '4', name: 'telephonie', displayName: 'Téléphonie', icon: '📱' },
+          { id: '5', name: 'tv', displayName: 'TV & Vidéo', icon: '📺' },
+          { id: '6', name: 'audio', displayName: 'Audio', icon: '🎧' },
+          { id: '7', name: 'electromenager', displayName: 'Électroménager', icon: '🧺' },
+          { id: '8', name: 'securite', displayName: 'Sécurité', icon: '📹' }
+        ];
       }
     });
   }
@@ -46,7 +60,6 @@ export class ProductsComponent implements OnInit {
       this.selectedCategory = category || '';
 
       if (category) {
-        // Load products by category
         this.dataService.getProductsByCategory(category).subscribe({
           next: (products) => {
             this.products = products;
@@ -56,11 +69,12 @@ export class ProductsComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error loading products:', error);
+            this.products = [];
+            this.allProducts = [];
             this.isLoading = false;
           }
         });
       } else {
-        // Load all products
         this.dataService.getProducts().subscribe({
           next: (products) => {
             this.products = products;
@@ -70,6 +84,8 @@ export class ProductsComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error loading products:', error);
+            this.products = [];
+            this.allProducts = [];
             this.isLoading = false;
           }
         });
@@ -92,14 +108,29 @@ export class ProductsComponent implements OnInit {
     this.router.navigate(['/products']);
   }
 
-  viewProductDetail(productId: number): void {
+  viewProductDetail(productId: string): void {  // Changé à string
     this.router.navigate(['/product', productId]);
   }
 
   addToCart(product: Product): void {
-    console.log('Adding to cart:', product);
-    alert(`${product.name} ajouté au panier!`);
-    // TODO: Implement cart service
+    if (!product.inStock) {
+      alert('Ce produit n\'est pas disponible en stock!');
+      return;
+    }
+
+    // Créer un objet compatible avec CartItem
+    const cartProduct = {
+      id: product.id,  // ID est maintenant string
+      name: product.name,
+      price: product.price,
+      image: product.image,
+      maxStock: 10
+    };
+
+    this.cartService.addToCart(cartProduct);
+    
+    // Afficher un message de confirmation
+    alert(`${product.name} a été ajouté au panier!`);
   }
 
   getStarRating(rating: number): string {

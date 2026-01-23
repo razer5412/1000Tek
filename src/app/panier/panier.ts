@@ -1,15 +1,9 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-interface CartItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  image: string;
-  maxStock: number;
-}
+import { Router } from '@angular/router';
+import { CartService,CartItem } from '../cart';
 
 @Component({
   selector: 'app-panier',
@@ -21,26 +15,19 @@ interface CartItem {
 export class Panier implements OnInit {
   cartItems: CartItem[] = [];
   
+  constructor(
+    private cartService: CartService,
+    private router: Router
+  ) {}
+  
   ngOnInit(): void {
-    // Sample cart items - In real app, get from service
-    this.cartItems = [
-      {
-        id: 1,
-        name: 'Pc Portable Asus X515EP I7-11ème, 8Go, 512 Ssd Ecran 15.6" FHD',
-        price: 2299.000,
-        quantity: 1,
-        image: 'assets/images/products/asus-x515ep.jpg',
-        maxStock: 10
-      },
-      {
-        id: 2,
-        name: 'PC Portable Gamer MSI Katana GF66 12UC-052FR',
-        price: 3299.000,
-        quantity: 2,
-        image: 'assets/images/products/msi-katana.jpg',
-        maxStock: 5
-      }
-    ];
+    // S'abonner aux changements du panier
+    this.cartService.cartItems$.subscribe(items => {
+      this.cartItems = items;
+    });
+    
+    // Initialiser avec les données actuelles
+    this.cartItems = this.cartService.getCartItems();
   }
 
   // Calculate subtotal for an item
@@ -50,43 +37,45 @@ export class Panier implements OnInit {
 
   // Calculate total price
   getTotal(): number {
-    return this.cartItems.reduce((total, item) => total + this.getItemSubtotal(item), 0);
+    return this.cartService.getTotal();
   }
 
   // Get total items count
   getTotalItems(): number {
-    return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+    return this.cartService.getTotalItems();
   }
 
   // Increase quantity
   increaseQuantity(item: CartItem): void {
     if (item.quantity < item.maxStock) {
-      item.quantity++;
+      this.cartService.updateQuantity(item.id, item.quantity + 1);
     }
   }
 
   // Decrease quantity
   decreaseQuantity(item: CartItem): void {
     if (item.quantity > 1) {
-      item.quantity--;
+      this.cartService.updateQuantity(item.id, item.quantity - 1);
     }
   }
 
   // Update quantity manually
   updateQuantity(item: CartItem, quantity: number): void {
     const qty = Math.max(1, Math.min(quantity, item.maxStock));
-    item.quantity = qty;
+    this.cartService.updateQuantity(item.id, qty);
   }
 
   // Remove item from cart
-  removeItem(itemId: number): void {
-    this.cartItems = this.cartItems.filter(item => item.id !== itemId);
+  removeItem(itemId: string): void {  // Changé à string
+    if (confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
+      this.cartService.removeItem(itemId);
+    }
   }
 
   // Clear entire cart
   clearCart(): void {
     if (confirm('Êtes-vous sûr de vouloir vider le panier ?')) {
-      this.cartItems = [];
+      this.cartService.clearCart();
     }
   }
 
@@ -97,12 +86,14 @@ export class Panier implements OnInit {
       return;
     }
     // Navigate to checkout page
+    this.router.navigate(['/checkout']);
     console.log('Proceeding to checkout...');
   }
 
   // Continue shopping
   continueShopping(): void {
     // Navigate back to shop
+    this.router.navigate(['/products']);
     console.log('Continue shopping...');
   }
 }

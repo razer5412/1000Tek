@@ -1,111 +1,106 @@
+
 <div class="product-detail-page">
   <div class="container">
-    <!-- Breadcrumb -->
-    <nav class="breadcrumb" *ngIf="product">
-      <a routerLink="/">Accueil</a>
-      <span class="separator">|</span>
-      <a routerLink="/products" [queryParams]="{category: product.category}">{{ product.category }}</a>
-      <span class="separator">|</span>
-      <span>{{ product.name }}</span>
-    </nav>
-
     <!-- Loading State -->
     <div *ngIf="isLoading" class="loading">
       <div class="spinner"></div>
       <p>Chargement du produit...</p>
     </div>
 
-    <!-- Product Content -->
-    <div *ngIf="!isLoading && product" class="product-content">
-      <h1 class="product-title-mobile">{{ product.name }}</h1>
+    <!-- Product Detail -->
+    <div *ngIf="!isLoading && product" class="product-detail">
+      <!-- Back Button -->
+      <button class="back-btn" (click)="goBack()">
+        ← Retour aux produits
+      </button>
 
-      <div class="product-layout">
-        <!-- Left: Images -->
+      <div class="product-detail-content">
+        <!-- Product Images -->
         <div class="product-images">
           <div class="main-image">
-            <img [src]="selectedImage" [alt]="product.name">
-          </div>
-          <div class="thumbnail-images">
-            <img 
-              *ngFor="let image of productImages; let i = index" 
-              [src]="image" 
-              [alt]="product.name + ' ' + (i + 1)"
-              [class.active]="selectedImage === image"
-              (click)="selectImage(image)"
-            >
+            <img [src]="product.image" [alt]="product.name">
           </div>
         </div>
 
-        <!-- Middle: Product Info -->
+        <!-- Product Info -->
         <div class="product-info">
-          <h1 class="product-title-desktop">{{ product.name }}</h1>
+          <!-- Stock Badge -->
+          <div class="stock-badge" [class.out-of-stock]="!product.inStock">
+            {{ product.inStock ? 'En stock' : 'Rupture' }}
+          </div>
+
+          <p class="product-brand">{{ product.brand }}</p>
+          <h1 class="product-title">{{ product.name }}</h1>
           
-          <p class="product-reference">
-            Référence : <strong>{{ product.brand }}-{{ product.id }}</strong>
-          </p>
-
-          <div class="product-description">
-            <p>{{ product.description }}</p>
-            <p class="warranty">Garantie 1 an</p>
-            <p class="bonus" *ngIf="product.category === 'telephonie'">
-              + STYLET + COVER + CARTE MEMOIRE 128GO
-            </p>
+          <div class="product-rating">
+            <span class="stars filled">{{ getStarRating(product.rating) }}</span>
+            <span class="rating-value">({{ product.rating }})</span>
           </div>
 
-          <!-- Store Availability -->
-        </div>
+          <p class="product-description">{{ product.description }}</p>
 
-        <!-- Right: Purchase Box -->
-        <div class="purchase-box">
-          <div class="brand-logo">
-            <img src="assets/images/brands/{{ product.brand.toLowerCase() }}.png" 
-                 [alt]="product.brand"
-                 onerror="this.style.display='none'">
+          <div class="product-price-section">
+            <p class="product-price">{{ product.price.toFixed(3) }} TND</p>
           </div>
 
-          <div class="price-section">
-            <p class="original-price">{{ getOriginalPrice().toFixed(3) }} DT</p>
-            <p class="current-price">{{ product.price.toFixed(3) }} DT</p>
-            <p class="discount-badge">Économisez {{ calculateDiscount().toFixed(3) }} DT</p>
-            <p class="price-label">TTC</p>
-          </div>
-
-          <div class="stock-info">
-            <p class="availability" [class.in-stock]="product.inStock">
-              Disponibilité : 
-              <strong>{{ product.inStock ? 'En stock' : 'Rupture de stock' }}</strong>
-            </p>
-          </div>
-
-          <div class="quantity-section">
-            <label>Quantité :</label>
+          <!-- Quantity Selector -->
+          <div class="quantity-selector">
+            <label>Quantité:</label>
             <div class="quantity-control">
-              <button class="qty-btn" (click)="decreaseQuantity()">-</button>
-              <input type="number" [(ngModel)]="quantity" min="1" readonly>
-              <button class="qty-btn" (click)="increaseQuantity()">+</button>
+              <button 
+                class="qty-btn" 
+                (click)="decreaseQuantity()"
+                [disabled]="quantity <= 1"
+              >
+                -
+              </button>
+              <input 
+                type="number" 
+                class="qty-input" 
+                [(ngModel)]="quantity"
+                min="1"
+                max="10"
+              >
+              <button 
+                class="qty-btn" 
+                (click)="increaseQuantity()"
+                [disabled]="quantity >= 10"
+              >
+                +
+              </button>
             </div>
           </div>
 
-          <button 
-            class="add-to-cart-btn" 
-            (click)="addToCart()"
-            [disabled]="!product.inStock"
-          >
-            Ajouter Au Panier
-          </button>
-
+          <!-- Action Buttons -->
           <div class="action-buttons">
-            <button class="action-btn" (click)="compareProduct()">
-              <span class="icon">⚖️</span>
-              Comparer
+            <button 
+              class="add-to-cart-btn" 
+              (click)="addToCart()"
+              [disabled]="!product.inStock"
+            >
+              {{ product.inStock ? 'AJOUTER AU PANIER' : 'RUPTURE DE STOCK' }}
             </button>
-            <button class="action-btn" (click)="addToFavorites()">
-              <span class="icon">❤️</span>
-              Favoris
+            
+            <button >
+              class="buy-now-btn" 
+              (click)="goToCheckout()"  <!-- Changé ici -->
+              [disabled]="!product.inStock"
+            >
+              ACHETER MAINTENANT
             </button>
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Product Not Found -->
+    <div *ngIf="!isLoading && !product" class="product-not-found">
+      <div class="empty-icon">❌</div>
+      <h2>Produit non trouvé</h2>
+      <p>Le produit que vous recherchez n'existe pas.</p>
+      <button class="btn-primary" (click)="goBack()">
+        Retour aux produits
+      </button>
     </div>
   </div>
 </div>

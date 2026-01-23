@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 export interface CartItem {
-  id: number;
+  id: string;  // Changé de number à string
   name: string;
   price: number;
   quantity: number;
@@ -65,7 +65,7 @@ export class CartService {
         price: product.price,
         quantity: 1,
         image: product.image,
-        maxStock: 10 // Par défaut, ou depuis le produit si disponible
+        maxStock: 10
       };
       
       this.updateCart([...currentItems, newItem]);
@@ -77,13 +77,13 @@ export class CartService {
     this.saveCartToStorage(items);
   }
 
-  removeItem(itemId: number): void {
+  removeItem(itemId: string): void {  // Changé à string
     const currentItems = this.cartItemsSubject.value;
     const updatedItems = currentItems.filter(item => item.id !== itemId);
     this.updateCart(updatedItems);
   }
 
-  updateQuantity(itemId: number, quantity: number): void {
+  updateQuantity(itemId: string, quantity: number): void {  // Changé à string
     const currentItems = this.cartItemsSubject.value;
     const updatedItems = currentItems.map(item => {
       if (item.id === itemId) {
