@@ -13,7 +13,7 @@ export interface MenuCategory {
   providedIn: 'root'
 })
 export class MenuService {
-  private apiUrl = 'http://localhost:3000/categories';
+  private apiUrl = 'http://localhost:3200/categories';
 
   constructor(private http: HttpClient) {}
 

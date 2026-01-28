@@ -46,7 +46,7 @@ export interface MenuItem {
   providedIn: 'root'
 })
 export class DataService {
-  private apiUrl = 'http://localhost:3000';  // Assurez-vous que json-server est en cours d'exécution
+  private apiUrl = 'http://localhost:3200';  // Assurez-vous que json-server est en cours d'exécution
   
   private selectedCategorySubject = new BehaviorSubject<string>('');
   selectedCategory$ = this.selectedCategorySubject.asObservable();
