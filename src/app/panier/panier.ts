@@ -1,14 +1,13 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { CartService,CartItem } from '../cart';
 
 @Component({
   selector: 'app-panier',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './panier.html',
   styleUrls: ['./panier.css']
 })
@@ -21,12 +20,12 @@ export class Panier implements OnInit {
   ) {}
   
   ngOnInit(): void {
-    // S'abonner aux changements du panier
+    // Subscribe to cart changes
     this.cartService.cartItems$.subscribe(items => {
       this.cartItems = items;
     });
     
-    // Initialiser avec les données actuelles
+    // Initialize with current data
     this.cartItems = this.cartService.getCartItems();
   }
 
@@ -45,18 +44,19 @@ export class Panier implements OnInit {
     return this.cartService.getTotalItems();
   }
 
+  // Get cart summary with tax and shipping
+  getCartSummary() {
+    return this.cartService.getCartSummary();
+  }
+
   // Increase quantity
   increaseQuantity(item: CartItem): void {
-    if (item.quantity < item.maxStock) {
-      this.cartService.updateQuantity(item.id, item.quantity + 1);
-    }
+    this.cartService.increaseQuantity(item.id);
   }
 
   // Decrease quantity
   decreaseQuantity(item: CartItem): void {
-    if (item.quantity > 1) {
-      this.cartService.updateQuantity(item.id, item.quantity - 1);
-    }
+    this.cartService.decreaseQuantity(item.id);
   }
 
   // Update quantity manually
@@ -66,7 +66,7 @@ export class Panier implements OnInit {
   }
 
   // Remove item from cart
-  removeItem(itemId: string): void {  // Changé à string
+  removeItem(itemId: number): void {
     if (confirm('Êtes-vous sûr de vouloir supprimer cet article ?')) {
       this.cartService.removeItem(itemId);
     }
@@ -80,20 +80,22 @@ export class Panier implements OnInit {
   }
 
   // Proceed to checkout
-  proceedToCheckout(): void {
-    if (this.cartItems.length === 0) {
-      alert('Votre panier est vide');
-      return;
-    }
-    // Navigate to checkout page
-    this.router.navigate(['/checkout']);
-    console.log('Proceeding to checkout...');
+ proceedToCheckout(): void {
+  if (this.cartItems.length === 0) {
+    alert('Votre panier est vide');
+    return;
   }
+  // Navigate to checkout page
+  this.router.navigate(['/checkout']);
+}
 
   // Continue shopping
   continueShopping(): void {
-    // Navigate back to shop
     this.router.navigate(['/products']);
-    console.log('Continue shopping...');
+  }
+
+  // Check if cart is empty
+  isCartEmpty(): boolean {
+    return this.cartItems.length === 0;
   }
 }

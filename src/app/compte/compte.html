@@ -1,0 +1,237 @@
+<div class="account-container">
+  <div class="container">
+    <div class="account-header">
+      <h1>Mon Compte</h1>
+      <p>Gérez vos informations personnelles et vos commandes</p>
+    </div>
+
+    <div class="account-content">
+      <!-- Sidebar -->
+      <div class="account-sidebar">
+        <div class="user-info-card">
+          <div class="user-avatar">
+            {{ currentUser?.name?.charAt(0)?.toUpperCase() || 'U' }}
+          </div>
+          <h3>{{ currentUser?.name }}</h3>
+          <p>{{ currentUser?.email }}</p>
+        </div>
+
+        <nav class="account-nav">
+          <button 
+            [class.active]="activeTab === 'profile'" 
+            (click)="setActiveTab('profile')"
+            class="nav-btn">
+            <span class="icon">👤</span>
+            <span>Mon Profil</span>
+          </button>
+          
+          <button 
+            [class.active]="activeTab === 'orders'" 
+            (click)="setActiveTab('orders')"
+            class="nav-btn">
+            <span class="icon">📦</span>
+            <span>Mes Commandes</span>
+          </button>
+          
+          <button 
+            [class.active]="activeTab === 'password'" 
+            (click)="setActiveTab('password')"
+            class="nav-btn">
+            <span class="icon">🔒</span>
+            <span>Mot de passe</span>
+          </button>
+          
+          <button (click)="logout()" class="nav-btn logout-btn">
+            <span class="icon">🚪</span>
+            <span>Déconnexion</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Main Content -->
+      <div class="account-main">
+        <!-- Success/Error Messages -->
+        <div *ngIf="successMessage" class="alert alert-success">
+          ✅ {{ successMessage }}
+        </div>
+        <div *ngIf="errorMessage" class="alert alert-error">
+          ❌ {{ errorMessage }}
+        </div>
+
+        <!-- Profile Tab -->
+        <div *ngIf="activeTab === 'profile'" class="tab-content">
+          <div class="section-header">
+            <h2>Informations Personnelles</h2>
+            <p>Modifiez vos informations de profil</p>
+          </div>
+
+          <form (ngSubmit)="updateProfile()" class="profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="name">Nom complet *</label>
+                <input 
+                  type="text" 
+                  id="name" 
+                  [(ngModel)]="profileData.name" 
+                  name="name"
+                  required
+                  placeholder="Votre nom complet">
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email *</label>
+                <input 
+                  type="email" 
+                  id="email" 
+                  [(ngModel)]="profileData.email" 
+                  name="email"
+                  required
+                  placeholder="votre@email.com">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Téléphone</label>
+                <input 
+                  type="tel" 
+                  id="phone" 
+                  [(ngModel)]="profileData.phone" 
+                  name="phone"
+                  placeholder="+216 XX XXX XXX">
+              </div>
+
+              <div class="form-group">
+                <label for="city">Ville</label>
+                <input 
+                  type="text" 
+                  id="city" 
+                  [(ngModel)]="profileData.city" 
+                  name="city"
+                  placeholder="Tunis, Sfax, Sousse...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="address">Adresse</label>
+              <textarea 
+                id="address" 
+                [(ngModel)]="profileData.address" 
+                name="address"
+                rows="3"
+                placeholder="Rue, numéro, bâtiment..."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="postal_code">Code postal</label>
+              <input 
+                type="text" 
+                id="postal_code" 
+                [(ngModel)]="profileData.postal_code" 
+                name="postal_code"
+                placeholder="1000">
+            </div>
+
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                class="btn-primary" 
+                [disabled]="isLoading">
+                <span *ngIf="!isLoading">💾 Enregistrer les modifications</span>
+                <span *ngIf="isLoading">⏳ Enregistrement...</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Orders Tab -->
+        <div *ngIf="activeTab === 'orders'" class="tab-content">
+          <div class="section-header">
+            <h2>Mes Commandes</h2>
+            <p>Consultez l'historique de vos commandes</p>
+          </div>
+
+          <div *ngIf="userOrders.length === 0" class="empty-state">
+            <div class="empty-icon">📦</div>
+            <h3>Aucune commande</h3>
+            <p>Vous n'avez pas encore passé de commande</p>
+            <a routerLink="/products" class="btn-primary">Commencer mes achats</a>
+          </div>
+
+          <div *ngIf="userOrders.length > 0" class="orders-list">
+            <div *ngFor="let order of userOrders" class="order-card">
+              <div class="order-header">
+                <div>
+                  <h3>Commande #{{ order.id }}</h3>
+                  <p class="order-date">{{ order.created_at | date: 'dd/MM/yyyy à HH:mm' }}</p>
+                </div>
+                <span [class]="getStatusBadgeClass(order.status)">
+                  {{ getStatusText(order.status) }}
+                </span>
+              </div>
+              <div class="order-body">
+                <p class="order-total">Total: {{ order.total.toFixed(3) }} TND</p>
+                <button class="btn-view-details">Voir les détails</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Password Tab -->
+        <div *ngIf="activeTab === 'password'" class="tab-content">
+          <div class="section-header">
+            <h2>Changer le mot de passe</h2>
+            <p>Modifiez votre mot de passe de connexion</p>
+          </div>
+
+          <form (ngSubmit)="changePassword()" class="password-form">
+            <div class="form-group">
+              <label for="currentPassword">Mot de passe actuel *</label>
+              <input 
+                type="password" 
+                id="currentPassword" 
+                [(ngModel)]="passwordData.currentPassword" 
+                name="currentPassword"
+                required
+                placeholder="••••••••">
+            </div>
+
+            <div class="form-group">
+              <label for="newPassword">Nouveau mot de passe *</label>
+              <input 
+                type="password" 
+                id="newPassword" 
+                [(ngModel)]="passwordData.newPassword" 
+                name="newPassword"
+                required
+                minlength="6"
+                placeholder="••••••••">
+              <small>Le mot de passe doit contenir au moins 6 caractères</small>
+            </div>
+
+            <div class="form-group">
+              <label for="confirmPassword">Confirmer le mot de passe *</label>
+              <input 
+                type="password" 
+                id="confirmPassword" 
+                [(ngModel)]="passwordData.confirmPassword" 
+                name="confirmPassword"
+                required
+                placeholder="••••••••">
+            </div>
+
+            <div class="form-actions">
+              <button 
+                type="submit" 
+                class="btn-primary" 
+                [disabled]="isLoading">
+                <span *ngIf="!isLoading">🔒 Changer le mot de passe</span>
+                <span *ngIf="isLoading">⏳ Changement...</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

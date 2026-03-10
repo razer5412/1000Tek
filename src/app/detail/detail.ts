@@ -1,9 +1,8 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService, Product } from '../data';
+import { DataService,Product } from '../data';
 import { CartService } from '../cart';
 
 @Component({
@@ -27,12 +26,12 @@ export class Detail implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const productId = params['id'];  // Pas besoin de convertir en number, c'est déjà string
+      const productId = params['id'];
       this.loadProduct(productId);
     });
   }
 
-  loadProduct(id: string): void {  // Changé à string
+  loadProduct(id: number | string): void {
     this.dataService.getProductById(id).subscribe({
       next: (product) => {
         this.product = product;
@@ -53,18 +52,8 @@ export class Detail implements OnInit {
       return;
     }
 
-    const cartProduct = {
-      id: this.product.id,
-      name: this.product.name,
-      price: this.product.price,
-      image: this.product.image,
-      maxStock: 10
-    };
-
-    // Ajouter la quantité sélectionnée
-    for (let i = 0; i < this.quantity; i++) {
-      this.cartService.addToCart(cartProduct);
-    }
+    // Add the product with selected quantity
+    this.cartService.addToCart(this.product, this.quantity);
     
     alert(`${this.product.name} (x${this.quantity}) a été ajouté au panier!`);
   }

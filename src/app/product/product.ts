@@ -1,9 +1,13 @@
-
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DataService, Category, Product } from '../data';
+import { DataService,Product,Category } from '../data';
 import { CartService } from '../cart';
+
+// Extend Category interface locally to add displayName
+interface DisplayCategory extends Category {
+  displayName: string;
+}
 
 @Component({
   selector: 'app-products',
@@ -15,7 +19,7 @@ import { CartService } from '../cart';
 export class ProductsComponent implements OnInit {
   products: Product[] = [];
   allProducts: Product[] = [];
-  categories: Category[] = [];
+  categories: DisplayCategory[] = [];
   selectedCategory: string = '';
   categoryDisplayName: string = 'Tous les produits';
   isLoading = true;
@@ -35,32 +39,30 @@ export class ProductsComponent implements OnInit {
   loadCategories(): void {
     this.dataService.getCategories().subscribe({
       next: (categories) => {
-        this.categories = categories;
+        this.categories = categories.map(cat => ({
+          ...cat,
+          displayName: cat.name,
+          icon: cat.icon || '📦'
+        })) as DisplayCategory[];
       },
       error: (error) => {
         console.error('Error loading categories:', error);
-        // Catégories par défaut en cas d'erreur
-        this.categories = [
-          { id: '1', name: 'laptop', displayName: 'Laptops', icon: '💻' },
-          { id: '2', name: 'pc', displayName: 'Desktop PCs', icon: '🖥️' },
-          { id: '3', name: 'informatique', displayName: 'Accessoires Informatique', icon: '⌨️' },
-          { id: '4', name: 'telephonie', displayName: 'Téléphonie', icon: '📱' },
-          { id: '5', name: 'tv', displayName: 'TV & Vidéo', icon: '📺' },
-          { id: '6', name: 'audio', displayName: 'Audio', icon: '🎧' },
-          { id: '7', name: 'electromenager', displayName: 'Électroménager', icon: '🧺' },
-          { id: '8', name: 'securite', displayName: 'Sécurité', icon: '📹' }
-        ];
+        this.categories = [];
       }
     });
   }
 
   loadProducts(): void {
-    this.route.queryParams.subscribe(params => {
-      const category = params['category'];
-      this.selectedCategory = category || '';
+  this.route.queryParams.subscribe(params => {
+    const category = params['category'];
+    const isParent = params['parent'] === 'true';
+    this.selectedCategory = category || '';
 
-      if (category) {
-        this.dataService.getProductsByCategory(category).subscribe({
+    if (category) {
+      // Check if it's a parent category
+      if (isParent) {
+        // Load all products from parent category and subcategories
+        this.dataService.getProductsByParentCategory(category).subscribe({
           next: (products) => {
             this.products = products;
             this.allProducts = products;
@@ -75,11 +77,12 @@ export class ProductsComponent implements OnInit {
           }
         });
       } else {
-        this.dataService.getProducts().subscribe({
+        // Load products from specific subcategory
+        this.dataService.getProductsByCategory(category).subscribe({
           next: (products) => {
             this.products = products;
             this.allProducts = products;
-            this.categoryDisplayName = 'Tous les produits';
+            this.updateCategoryDisplayName(category);
             this.isLoading = false;
           },
           error: (error) => {
@@ -90,11 +93,31 @@ export class ProductsComponent implements OnInit {
           }
         });
       }
-    });
-  }
+    } else {
+      // Load all products
+      this.dataService.getProducts().subscribe({
+        next: (products) => {
+          this.products = products;
+          this.allProducts = products;
+          this.categoryDisplayName = 'Tous les produits';
+          this.isLoading = false;
+        },
+        error: (error) => {
+          console.error('Error loading products:', error);
+          this.products = [];
+          this.allProducts = [];
+          this.isLoading = false;
+        }
+      });
+    }
+  });
+}
 
   updateCategoryDisplayName(categoryName: string): void {
-    const category = this.categories.find(c => c.name === categoryName);
+    const category = this.categories.find(c => 
+      c.name.toLowerCase() === categoryName.toLowerCase() ||
+      c.slug === categoryName
+    );
     this.categoryDisplayName = category ? category.displayName : categoryName;
   }
 
@@ -108,7 +131,7 @@ export class ProductsComponent implements OnInit {
     this.router.navigate(['/products']);
   }
 
-  viewProductDetail(productId: string): void {  // Changé à string
+  viewProductDetail(productId: number): void {
     this.router.navigate(['/product', productId]);
   }
 
@@ -118,18 +141,7 @@ export class ProductsComponent implements OnInit {
       return;
     }
 
-    // Créer un objet compatible avec CartItem
-    const cartProduct = {
-      id: product.id,  // ID est maintenant string
-      name: product.name,
-      price: product.price,
-      image: product.image,
-      maxStock: 10
-    };
-
-    this.cartService.addToCart(cartProduct);
-    
-    // Afficher un message de confirmation
+    this.cartService.addToCart(product);
     alert(`${product.name} a été ajouté au panier!`);
   }
 

@@ -1,7 +1,8 @@
 .footer {
-  background-color: #f5f5f5;
+  background-color: #ffffff;
   padding: 40px 20px 20px;
-  font-family: Arial, sans-serif;
+  font-family: 'Inter', Arial, sans-serif;
+  border-top: 1px solid #e2e8f0;
 }
 
 .footer-container {
@@ -30,18 +31,20 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  color: #7cb342;
+  color: #2563eb;
   font-size: 14px;
 }
 
 .location-icon {
   font-size: 18px;
   margin-top: 2px;
+  color: #2563eb;
 }
 
 .address p {
   margin: 0;
   line-height: 1.5;
+  color: #1e293b;
 }
 
 /* Contact Section */
@@ -49,7 +52,7 @@
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #333;
+  color: #0f172a;
 }
 
 .contact-item {
@@ -62,30 +65,30 @@
 .phone-icon,
 .email-icon {
   font-size: 20px;
-  color: #7cb342;
+  color: #2563eb;
 }
 
 .phone-number {
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: #0f172a;
   text-decoration: none;
   display: block;
   margin-bottom: 5px;
 }
 
 .phone-number:hover {
-  color: #7cb342;
+  color: #2563eb;
 }
 
 .hours {
   font-size: 13px;
-  color: #666;
+  color: #64748b;
   margin: 0;
 }
 
 .email {
-  color: #7cb342;
+  color: #2563eb;
   text-decoration: none;
   font-size: 14px;
   margin-top: 3px;
@@ -100,7 +103,7 @@
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-  color: #333;
+  color: #0f172a;
 }
 
 .links-list {
@@ -114,19 +117,18 @@
 }
 
 .links-list a {
-  color: #666;
+  color: #64748b;
   text-decoration: none;
   font-size: 14px;
-  transition: color 0.3s ease;
 }
 
 .links-list a:hover {
-  color: #7cb342;
+  color: #2563eb;
 }
 
 /* Copyright Section */
 .copyright {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid #e2e8f0;
   padding-top: 20px;
   text-align: center;
 }
@@ -134,7 +136,7 @@
 .copyright p {
   margin: 0;
   font-size: 13px;
-  color: #666;
+  color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -146,6 +148,11 @@
   height: 20px;
   width: auto;
   vertical-align: middle;
+  opacity: 0.7;
+}
+
+.powered-by-logo:hover {
+  opacity: 1;
 }
 
 /* Responsive Design */
@@ -153,6 +160,20 @@
   .footer-container {
     grid-template-columns: 1fr;
     gap: 30px;
+  }
+
+  .logo-section,
+  .contact-section,
+  .links-section {
+    text-align: center;
+  }
+
+  .address {
+    justify-content: center;
+  }
+
+  .contact-item {
+    justify-content: center;
   }
 
   .copyright p {

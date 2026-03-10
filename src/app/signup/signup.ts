@@ -1,26 +1,29 @@
-
-import { RouterModule } from '@angular/router';
 import { Component } from '@angular/core';
-import { AuthService } from '../auth';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../auth';  // ← FIXED PATH
 
 @Component({
   selector: 'app-signup',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule],
   templateUrl: './signup.html',
-  styleUrls: ['./signup.css'],
-  imports: [RouterModule,FormsModule]
+  styleUrls: ['./signup.css']
 })
 export class SignupComponent {
   user = {
     name: '',
     email: '',
-    password: '',
-    role: 'user'
+    password: ''
   };
   errorMessage = '';
+  isLoading = false;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   // Email validation function
   isValidEmail(email: string): boolean {
@@ -28,9 +31,10 @@ export class SignupComponent {
     return emailPattern.test(email);
   }
 
-  signup() {
+  signup(): void {
     this.errorMessage = '';
     
+    // Validation
     if (!this.user.name) {
       this.errorMessage = 'Veuillez entrer votre nom';
       return;
@@ -56,11 +60,25 @@ export class SignupComponent {
       return;
     }
 
-    this.auth.signup(this.user).subscribe(() => {
-      alert('Compte créé avec succès');
-      this.router.navigate(['/login']);
-    }, error => {
-      this.errorMessage = 'Erreur lors de la création du compte';
+    this.isLoading = true;
+
+    // Call signup service
+    this.authService.signup(this.user).subscribe({
+      next: (response) => {
+        console.log('Signup response:', response);
+        if (response.success) {
+          alert('Compte créé avec succès!');
+          this.router.navigate(['/']);
+        } else {
+          this.errorMessage = 'Erreur lors de la création du compte';
+        }
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Signup error:', error);
+        this.errorMessage = error.error?.message || 'Erreur lors de la création du compte';
+        this.isLoading = false;
+      }
     });
   }
 }
