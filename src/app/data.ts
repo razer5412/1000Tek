@@ -23,6 +23,36 @@ export interface Product {
   updatedAt?: string;
 }
 
+export interface Commande {
+  id: number;
+  order_number: string;
+  user_id: number;
+
+  total: number;
+  subtotal: number;
+  tax: number;
+  shipping: number;
+
+  delivery_method: 'delivery' | 'pickup';
+  status: 'pending' | 'confirmed' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
+
+  payment_method: string;
+  payment_status: 'unpaid' | 'paid' | 'refunded';
+
+  customer_name: string;
+  customer_email: string;
+  customer_phone: string;
+
+  customer_address: string;
+  customer_city: string;
+  customer_postal_code: string;
+
+  notes?: string;
+
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface Category {
   id: number;
   name: string;
@@ -56,11 +86,11 @@ export interface MenuItem {
 })
 export class DataService {
   private apiUrl = 'http://localhost:3000/api';
-  
+
   private selectedCategorySubject = new BehaviorSubject<string>('');
   selectedCategory$ = this.selectedCategorySubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   // Get menu structure based on categories from database
   getMenuStructure(): Observable<MenuItem[]> {
@@ -68,14 +98,14 @@ export class DataService {
       map(categories => {
         // Build dynamic menu from database categories
         const menuItems: MenuItem[] = [];
-        
+
         // Get parent categories (parent_id = null)
         const parentCategories = categories.filter(cat => cat.parent_id === null);
-        
+
         parentCategories.forEach(parent => {
           // Get children of this parent
           const children = categories.filter(cat => cat.parent_id === parent.id);
-          
+
           const menuItem: MenuItem = {
             name: parent.name,
             displayName: parent.name,
@@ -83,7 +113,7 @@ export class DataService {
             slug: parent.slug,
             sections: []
           };
-          
+
           if (children.length > 0) {
             menuItem.sections.push({
               title: parent.name,
@@ -94,10 +124,10 @@ export class DataService {
               }))
             });
           }
-          
+
           menuItems.push(menuItem);
         });
-        
+
         return menuItems;
       }),
       catchError(error => {
@@ -118,15 +148,15 @@ export class DataService {
   }
   // Add this method after getProductsByCategory()
 
-// Get products by parent category (includes all subcategories)
-getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
-  return this.http.get<Product[]>(`${this.apiUrl}/products/by-parent-category/${parentSlug}`).pipe(
-    catchError(error => {
-      console.error(`Error fetching products for parent category ${parentSlug}:`, error);
-      return of([]);
-    })
-  );
-}
+  // Get products by parent category (includes all subcategories)
+  getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
+    return this.http.get<Product[]>(`${this.apiUrl}/products/by-parent-category/${parentSlug}`).pipe(
+      catchError(error => {
+        console.error(`Error fetching products for parent category ${parentSlug}:`, error);
+        return of([]);
+      })
+    );
+  }
 
   // Get product by ID
   getProductById(id: number | string): Observable<Product> {
@@ -192,7 +222,7 @@ getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
     }
 
     return this.getProducts().pipe(
-      map(products => products.filter(p => 
+      map(products => products.filter(p =>
         p.name.toLowerCase().includes(query.toLowerCase()) ||
         p.description.toLowerCase().includes(query.toLowerCase()) ||
         p.brand.toLowerCase().includes(query.toLowerCase()) ||
@@ -218,7 +248,7 @@ getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
         let filtered = products;
 
         if (filters.category) {
-          filtered = filtered.filter(p => 
+          filtered = filtered.filter(p =>
             p.category?.toLowerCase() === filters.category?.toLowerCase()
           );
         }
@@ -236,7 +266,7 @@ getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
         }
 
         if (filters.brand) {
-          filtered = filtered.filter(p => 
+          filtered = filtered.filter(p =>
             p.brand?.toLowerCase() === filters.brand?.toLowerCase()
           );
         }
@@ -269,7 +299,7 @@ getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
   // Get products by brand
   getProductsByBrand(brand: string): Observable<Product[]> {
     return this.getProducts().pipe(
-      map(products => products.filter(p => 
+      map(products => products.filter(p =>
         p.brand?.toLowerCase() === brand.toLowerCase()
       )),
       catchError(error => {
@@ -288,4 +318,13 @@ getProductsByParentCategory(parentSlug: string): Observable<Product[]> {
   getSelectedCategory(): string {
     return this.selectedCategorySubject.value;
   }
+  // Get commandes by user ID
+getCommandesByUser(userId: number): Observable<Commande[]> {
+  return this.http.get<Commande[]>(`${this.apiUrl}/commandes/user/${userId}`).pipe(
+    catchError(error => {
+      console.error(`Error fetching commandes for user ${userId}:`, error);
+      return of([]);
+    })
+  );
+}
 }

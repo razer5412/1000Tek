@@ -110,25 +110,59 @@ export class Compte implements OnInit {
       }
     });
   }
+loadUserOrders(): void {
 
-  loadUserOrders(): void {
-    if (!this.currentUser) return;
+  console.log('Current User:', this.currentUser);
 
-    const token = this.authService.getToken();
-    if (!token) return;
-
-    this.http.get<any[]>(`http://localhost:3000/api/users/${this.currentUser.id}/orders`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    }).subscribe({
-      next: (orders) => {
-        this.userOrders = orders;
-      },
-      error: (error) => {
-        console.error('Error loading orders:', error);
-        this.userOrders = [];
-      }
-    });
+  if (!this.currentUser) {
+    console.log('No current user');
+    return;
   }
+
+  const token = this.authService.getToken();
+
+  console.log('Token:', token);
+
+  if (!token) {
+    console.log('No token found');
+    return;
+  }
+
+  const url = `http://localhost:3000/api/users/${this.currentUser.id}/orders`;
+
+  console.log('Request URL:', url);
+
+  this.http.get<any[]>(url, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).subscribe({
+
+    next: (orders) => {
+
+      console.log('Orders received:', orders);
+
+      this.userOrders = orders;
+
+    },
+
+    error: (error) => {
+
+      console.error('FULL ERROR:', error);
+
+      console.error('Status:', error.status);
+
+      console.error('Message:', error.message);
+
+      console.error('Backend:', error.error);
+
+      this.userOrders = [];
+
+    }
+
+  });
+
+}
 
   setActiveTab(tab: 'profile' | 'password' | 'orders'): void {
     this.activeTab = tab;

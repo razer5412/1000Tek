@@ -63,15 +63,15 @@ export class CartService {
    */
   addToCart(product: any, quantity: number = 1): void {
     const currentItems = this.cartItemsSubject.value;
-    
+
     // Check if product already exists in cart
     const existingItemIndex = currentItems.findIndex(item => item.id === product.id);
-    
+
     if (existingItemIndex !== -1) {
       // Product exists, update quantity
       const existingItem = currentItems[existingItemIndex];
       const newQuantity = existingItem.quantity + quantity;
-      
+
       if (newQuantity <= existingItem.maxStock) {
         currentItems[existingItemIndex] = {
           ...existingItem,
@@ -94,9 +94,13 @@ export class CartService {
         brand: product.brand,
         category: product.category
       };
-      
+
       this.updateCart([...currentItems, newItem]);
     }
+  }
+
+  getCartCount(): number {
+    return this.getCartItems().length;
   }
 
   /**
@@ -168,7 +172,7 @@ export class CartService {
    */
   getTotal(): number {
     return this.cartItemsSubject.value.reduce(
-      (total, item) => total + (item.price * item.quantity), 
+      (total, item) => total + (item.price * item.quantity),
       0
     );
   }
@@ -178,7 +182,7 @@ export class CartService {
    */
   getTotalItems(): number {
     return this.cartItemsSubject.value.reduce(
-      (total, item) => total + item.quantity, 
+      (total, item) => total + item.quantity,
       0
     );
   }

@@ -1,197 +1,258 @@
 .footer {
   background-color: #ffffff;
-  padding: 40px 20px 20px;
+  padding: 25px 15px 12px;
+
   font-family: 'Inter', Arial, sans-serif;
+
   border-top: 1px solid #e2e8f0;
 }
 
+/* CONTAINER */
 .footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1100px;
+
+  margin: 0 auto 20px;
+
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 40px;
-  margin-bottom: 30px;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(220px, 1fr));
+
+  gap: 25px;
 }
 
-/* Logo Section */
+/* SECTIONS */
+.footer-section {
+  font-size: 13px;
+}
+
+/* LOGO */
 .logo-section {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+
+  gap: 10px;
 }
 
 .footer-logo {
-  width: 150px;
+  width: 110px;
+
   height: auto;
-  margin-bottom: 10px;
 }
 
+/* ADDRESS */
 .address {
   display: flex;
+
   align-items: flex-start;
-  gap: 10px;
-  color: #2563eb;
-  font-size: 14px;
+
+  gap: 8px;
+
+  color: #2D3748;
+
+  font-size: 12px;
 }
 
 .location-icon {
-  font-size: 18px;
-  margin-top: 2px;
-  color: #2563eb;
+  font-size: 15px;
+
+  margin-top: 1px;
 }
 
 .address p {
   margin: 0;
-  line-height: 1.5;
-  color: #1e293b;
+
+  line-height: 1.4;
+
+  color: #4a5568;
 }
 
-/* Contact Section */
-.contact-section h3 {
-  font-size: 18px;
+/* TITLES */
+.contact-section h3,
+.links-section h3 {
+  font-size: 15px;
+
   font-weight: 600;
-  margin-bottom: 20px;
-  color: #0f172a;
+
+  margin-bottom: 14px;
+
+  color: #2D3748;
 }
 
+/* CONTACT */
 .contact-item {
   display: flex;
+
   align-items: flex-start;
-  gap: 10px;
-  margin-bottom: 15px;
+
+  gap: 8px;
+
+  margin-bottom: 10px;
 }
 
 .phone-icon,
 .email-icon {
-  font-size: 20px;
-  color: #2563eb;
+  font-size: 16px;
+
+  color: #2D3748;
 }
 
 .phone-number {
-  font-size: 24px;
+  font-size: 18px;
+
   font-weight: 600;
-  color: #0f172a;
+
+  color: #1e293b;
+
   text-decoration: none;
+
   display: block;
-  margin-bottom: 5px;
+
+  margin-bottom: 2px;
+
+  transition: color 0.3s ease;
 }
 
 .phone-number:hover {
-  color: #2563eb;
+  color: #2D3748;
 }
 
 .hours {
-  font-size: 13px;
-  color: #64748b;
+  font-size: 11px;
+
+  color: #718096;
+
   margin: 0;
 }
 
 .email {
-  color: #2563eb;
+  color: #2D3748;
+
   text-decoration: none;
-  font-size: 14px;
-  margin-top: 3px;
+
+  font-size: 12px;
+
+  transition: color 0.3s ease;
 }
 
 .email:hover {
-  text-decoration: underline;
+  color: #1a202c;
 }
 
-/* Links Section */
-.links-section h3 {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #0f172a;
-}
-
+/* LINKS */
 .links-list {
   list-style: none;
+
   padding: 0;
   margin: 0;
 }
 
 .links-list li {
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .links-list a {
-  color: #64748b;
+  color: #718096;
+
   text-decoration: none;
-  font-size: 14px;
+
+  font-size: 12px;
+
+  transition:
+    color 0.3s ease,
+    transform 0.3s ease;
+
+  display: inline-block;
 }
 
 .links-list a:hover {
-  color: #2563eb;
+  color: #2D3748;
+
+  transform: translateX(3px);
 }
 
-/* Copyright Section */
+/* COPYRIGHT */
 .copyright {
-  border-top: 1px solid #e2e8f0;
-  padding-top: 20px;
+  border-top: 1px solid #edf2f7;
+
+  padding-top: 12px;
+
   text-align: center;
 }
 
 .copyright p {
   margin: 0;
-  font-size: 13px;
-  color: #64748b;
+
+  font-size: 11px;
+
+  color: #718096;
+
   display: flex;
+
   align-items: center;
   justify-content: center;
-  gap: 8px;
+
+  gap: 6px;
+
   flex-wrap: wrap;
 }
 
 .powered-by-logo {
-  height: 20px;
+  height: 15px;
+
   width: auto;
-  vertical-align: middle;
-  opacity: 0.7;
+
+  opacity: 0.75;
+
+  transition: opacity 0.3s ease;
 }
 
 .powered-by-logo:hover {
   opacity: 1;
 }
 
-/* Responsive Design */
+/* RESPONSIVE */
 @media (max-width: 768px) {
+
+  .footer {
+    padding: 22px 12px 10px;
+  }
+
   .footer-container {
     grid-template-columns: 1fr;
-    gap: 30px;
+
+    gap: 20px;
+
+    text-align: center;
   }
 
   .logo-section,
   .contact-section,
   .links-section {
-    text-align: center;
+    align-items: center;
   }
 
-  .address {
-    justify-content: center;
-  }
-
+  .address,
   .contact-item {
     justify-content: center;
   }
 
-  .copyright p {
-    flex-direction: column;
-    gap: 5px;
+  .phone-number {
+    font-size: 16px;
   }
+
 }
 
 @media (max-width: 480px) {
-  .footer {
-    padding: 30px 15px 15px;
-  }
-
-  .phone-number {
-    font-size: 20px;
-  }
 
   .footer-logo {
-    width: 120px;
+    width: 95px;
   }
+
+  .copyright p {
+    flex-direction: column;
+
+    gap: 3px;
+  }
+
 }

@@ -3,10 +3,11 @@ import { RouterOutlet } from '@angular/router';
 import { Navbar } from './navbar/navbar';
 import { Footer } from './footer/footer';
 import { MenuComponent } from './menu/menu';
+import { CartToastComponent } from './shared/cart-toast/cart-toast';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Navbar, Footer, MenuComponent],
+  imports: [RouterOutlet, Navbar, Footer, MenuComponent,CartToastComponent ],
   templateUrl: './app.html',
   styleUrls: ['./app.css']
 })

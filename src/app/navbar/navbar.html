@@ -1,34 +1,39 @@
-
-	<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="custom-navbar navbar navbar-expand-md navbar-dark bg-dark">
   <div class="container">
 
     <!-- LOGO LEFT -->
     <a class="navbar-brand" routerLink="/">
-      <img src="assets/images/logo.png" alt="Logo" >
+      <img src="assets/images/logo.png" alt="Logo">
     </a>
 
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-bs-toggle="collapse"
-      data-bs-target="#navbarsFurni">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsFurni">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse" id="navbarsFurni">
 
+      <!-- SEARCH BAR -->
+      <div class="search-bar-wrapper">
+        <div class="search-bar">
+          <input type="text" class="search-input" placeholder="🔍 Rechercher un produit..." [(ngModel)]="searchQuery"
+            (keyup)="onSearchKeyup($event)">
+          <button class="search-btn" (click)="performSearch()">Rechercher</button>
+        </div>
+      </div>
+
       <!-- MENU RIGHT -->
       <ul class="custom-navbar-nav navbar-nav ms-auto">
         <li class="nav-item"><a class="nav-link" routerLink="/service">Services</a></li>
         <li class="nav-item"><a class="nav-link" routerLink="/contact">Contact</a></li>
-        <li class="nav-item"><a class="nav-link"  routerLink="/compte">mon compte</a></li>
-        
+        <li class="nav-item"><a class="nav-link" routerLink="/compte">mon compte</a></li>
+
       </ul>
 
       <!-- ICONS -->
       <ul class="custom-navbar-cta navbar-nav ms-4">
         <li><a class="nav-link" routerLink="/login"><img src="assets/images/user.svg"></a></li>
-        <li><a class="nav-link" routerLink="/panier"><img src="assets/images/cart.svg"></a></li>
+        <li><a class="nav-link" routerLink="/panier"><img src="assets/images/cart.svg"><span class="cart-badge">{{
+              cartService.getCartCount() }}</span></a></li>
       </ul>
 
     </div>

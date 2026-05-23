@@ -147,7 +147,7 @@
           <span class="promo-tag">OFFRE LIMITÉE</span>
           <h2>Jusqu'à -30% sur le gaming</h2>
           <p>Configurations PC gaming, périphériques et accessoires</p>
-          <a routerLink="/gaming" class="promo-btn">Découvrir <span>→</span></a>
+          <a style="color: white;" routerLink="/products" class="promo-btn">Découvrir <span>→</span></a>
         </div>
       </div>
       <div class="col-lg-6">
@@ -176,9 +176,6 @@
         </div>
         <div class="deal-info">
           <h4>{{ deal.name | slice:0:40 }}{{ deal.name.length > 40 ? '...' : '' }}</h4>
-          <div class="deal-price">
-            <span class="current">{{ formatPrice(deal.price) }}</span>
-          </div>
         </div>
       </div>
     </div>
@@ -204,7 +201,7 @@
       
       <div class="feature-item">
         <div class="feature-icon">
-          <img src="assets/images/secure.svg" alt="Paiement">
+          <img src="assets/images/user.svg" alt="Paiement">
         </div>
         <h3>Paiement Sécurisé</h3>
         <p>Transactions 100% sécurisées, toutes cartes acceptées</p>
@@ -227,65 +224,6 @@
       </div>
     </div>
   </div>
-
-<!-- TOP CATEGORIES Section -->
-<section class="top-categories-section" *ngIf="!isLoading && categories.length > 0">
-  <div class="container">
-    <div class="section-header">
-      <h2 class="section-title">
-        <span class="highlight">TOP CATÉGORIES</span>
-       
-      </h2>
-    </div>
-    
-    <!-- Category Tabs -->
-    <div class="category-tabs">
-      <button *ngFor="let cat of categories"
-              class="category-tab" 
-              [class.active]="activeCategoryTab === cat.slug"
-              (click)="changeCategory(cat.slug)">
-        <span class="tab-icon">{{ cat.icon || '📦' }}</span>
-        <span class="tab-text">{{ cat.name }}</span>
-      </button>
-    </div>
-
-    <div class="products-grid" *ngIf="topCategories.length > 0; else noCategoryProducts">
-      <div *ngFor="let product of topCategories; trackBy: trackByProductId" 
-           class="product-card" 
-           (click)="viewProduct(product.id)">
-        
-        <div class="product-actions">
-          <button class="action-btn wishlist-btn" (click)="addToWishlist(product, $event)">
-            <i class="heart-icon">♡</i>
-          </button>
-        </div>
-        
-        <div class="product-image">
-          <img [src]="product.image" [alt]="product.name" loading="lazy">
-        </div>
-        
-        <div class="product-info">
-          <h3 class="product-title">{{ product.name | slice:0:50 }}{{ product.name.length > 50 ? '...' : '' }}</h3>
-          <div class="product-rating" *ngIf="product.rating">
-            <span class="stars">{{ getRatingStars(product.rating) }}</span>
-          </div>
-          <p class="product-price">{{ formatPrice(product.price) }}</p>
-          <button class="add-to-cart-btn" 
-                  (click)="addToCart(product, $event)"
-                  [disabled]="!product.inStock">
-            {{ product.inStock ? 'AJOUTER' : 'RUPTURE' }}
-          </button>
-        </div>
-      </div>
-    </div>
-    
-    <ng-template #noCategoryProducts>
-      <div class="no-products">
-        <p>Aucun produit dans cette catégorie</p>
-      </div>
-    </ng-template>
-  </div>
-</section>
 
 <!-- Brands Section -->
 <section class="brands-section">

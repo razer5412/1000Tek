@@ -13,21 +13,14 @@
           <h3 class="filter-title">Catégories</h3>
           <ul class="category-list">
             <li>
-              <button 
-                class="category-filter-btn"
-                [class.active]="!selectedCategory"
-                (click)="showAllProducts()"
-              >
+              <button class="category-filter-btn" [class.active]="!selectedCategory" (click)="showAllProducts()">
                 <span class="category-icon">📦</span>
                 Tous les produits
               </button>
             </li>
             <li *ngFor="let category of categories">
-              <button 
-                class="category-filter-btn"
-                [class.active]="selectedCategory === category.name"
-                (click)="filterByCategory(category.name)"
-              >
+              <button class="category-filter-btn" [class.active]="selectedCategory === category.name"
+                (click)="filterByCategory(category.name)">
                 <span class="category-icon">{{ category.icon }}</span>
                 {{ category.displayName }}
               </button>
@@ -65,7 +58,7 @@
             <div class="wishlist-btn" (click)="$event.stopPropagation()">
               <i class="heart-icon">♡</i>
             </div>
-            
+
             <div class="product-image">
               <img [src]="product.image" [alt]="product.name">
             </div>
@@ -74,7 +67,7 @@
               <p class="product-brand">{{ product.brand }}</p>
               <h3 class="product-title">{{ product.name }}</h3>
               <p class="product-description">{{ product.description }}</p>
-              
+
               <div class="product-rating">
                 <span class="stars filled">{{ getStarRating(product.rating) }}</span>
                 <span class="rating-value">({{ product.rating }})</span>
@@ -82,11 +75,8 @@
 
               <p class="product-price">{{ product.price.toFixed(3) }} TND</p>
 
-              <button 
-                class="add-to-cart-btn" 
-                (click)="addToCart(product); $event.stopPropagation()"
-                [disabled]="!product.inStock"
-              >
+              <button class="add-to-cart-btn" (click)="addToCart(product); $event.stopPropagation()"
+                [disabled]="!product.inStock">
                 {{ product.inStock ? 'AJOUTER AU PANIER' : 'RUPTURE DE STOCK' }}
               </button>
             </div>

@@ -81,13 +81,7 @@
               {{ product.inStock ? 'AJOUTER AU PANIER' : 'RUPTURE DE STOCK' }}
             </button>
             
-            <button >
-              class="buy-now-btn" 
-              (click)="goToCheckout()"  <!-- Changé ici -->
-              [disabled]="!product.inStock"
-            >
-              ACHETER MAINTENANT
-            </button>
+            
           </div>
         </div>
       </div>

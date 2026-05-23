@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DataService,Product } from '../data';
 import { CartService } from '../cart';
+import { ToastService } from '../shared/cart-toast.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -21,7 +22,7 @@ export class Detail implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dataService: DataService,
-    private cartService: CartService
+    private cartService: CartService,  private toast: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -49,13 +50,16 @@ export class Detail implements OnInit {
     
     if (!this.product.inStock) {
       alert('Ce produit n\'est pas disponible en stock!');
-      return;
+      
     }
 
     // Add the product with selected quantity
     this.cartService.addToCart(this.product, this.quantity);
     
-    alert(`${this.product.name} (x${this.quantity}) a été ajouté au panier!`);
+    this.toast.show(
+    'Produit ajouté au panier',
+    'success'
+  );
   }
 
   increaseQuantity(): void {

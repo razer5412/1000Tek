@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { DataService, Product, Category } from '../data';
 import { CartService } from '../cart';
 import { Subscription, forkJoin } from 'rxjs';
+import { ToastService } from '../shared/cart-toast.service';
 
 @Component({
   selector: 'app-home',
@@ -30,7 +31,6 @@ export class Home implements OnInit, OnDestroy {
     { name: 'Acer', slug: 'acer', logo: 'acer.png' },
     { name: 'Dell', slug: 'dell', logo: 'dell.png' },
     { name: 'Apple', slug: 'apple', logo: 'apple.png' },
-    { name: 'Huawei', slug: 'huawei', logo: 'huawei.png' },
     { name: 'Samsung', slug: 'samsung', logo: 'samsung.png' },
     { name: 'MSI', slug: 'msi', logo: 'msi.png' },
   ];
@@ -43,11 +43,13 @@ export class Home implements OnInit, OnDestroy {
 
   // Subscriptions
   private subscriptions: Subscription[] = [];
+  
 
   constructor(
     private router: Router,
     private dataService: DataService,
-    private cartService: CartService
+    private cartService: CartService,
+    private toast: ToastService
   ) {}
 
   @HostListener('window:scroll')
@@ -63,7 +65,6 @@ export class Home implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscriptions.forEach(sub => sub.unsubscribe());
   }
-
   loadAllData(): void {
     this.isLoading = true;
     this.errorMessage = '';
@@ -188,18 +189,20 @@ export class Home implements OnInit, OnDestroy {
   }
 
   addToCart(product: Product, event: Event): void {
-    event.stopPropagation();
-    event.preventDefault();
-    
-    if (!product.inStock) {
-      this.showNotification(`❌ ${product.name} n'est pas disponible`, 'error');
-      return;
-    }
-
-    this.cartService.addToCart(product);
-    this.showNotification(`✅ ${product.name} ajouté au panier!`, 'success');
-    this.animateCartIcon();
+  event.stopPropagation();
+  event.preventDefault();
+  
+  if (!product.inStock) {
+    alert(`❌ ${product.name} n'est pas disponible`);
+    return;
   }
+
+  this.cartService.addToCart(product);
+  this.toast.show(
+    'Produit ajouté au panier',
+    'success'
+  );
+}
 
   addToWishlist(product: Product, event: Event): void {
     event.stopPropagation();
@@ -209,10 +212,8 @@ export class Home implements OnInit, OnDestroy {
     if (!wishlist.some((p: any) => p.id === product.id)) {
       wishlist.push(product);
       localStorage.setItem('wishlist', JSON.stringify(wishlist));
-      this.showNotification(`❤️ ${product.name} ajouté aux favoris!`, 'info');
-    } else {
-      this.showNotification(`ℹ️ ${product.name} déjà dans vos favoris`, 'info');
-    }
+      
+    } 
   }
 
   quickView(product: Product, event: Event): void {
@@ -271,7 +272,6 @@ export class Home implements OnInit, OnDestroy {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.textContent = message;
-    
     const colors = {
       success: '#22c55e',
       error: '#ef4444',
@@ -364,4 +364,6 @@ export class Home implements OnInit, OnDestroy {
   trackByBrandName(index: number, brand: any): string {
     return brand.slug;
   }
+  
+  
 }

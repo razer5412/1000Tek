@@ -1,0 +1,148 @@
+/* PAGE CENTER */
+.contact-wrapper {
+  min-height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 40px 20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #f4f7fb,
+      #e9eef5
+    );
+}
+
+/* FORM CARD */
+.contact-form {
+  width: 100%;
+  max-width: 750px;
+
+  background: white;
+
+  padding: 45px;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 15px 40px rgba(45, 55, 72, 0.12);
+
+  animation: fadeUp 0.7s ease;
+}
+
+/* LABELS */
+.contact-form label {
+  font-weight: 600;
+
+  margin-bottom: 8px;
+
+  color: #2D3748;
+}
+
+/* INPUTS */
+.contact-form .form-control {
+  height: 52px;
+
+  border-radius: 14px;
+
+  border: 1px solid #dbe3ec;
+
+  padding: 12px 18px;
+
+  font-size: 15px;
+
+  transition:
+    all 0.3s ease;
+
+  box-shadow: none;
+}
+
+/* TEXTAREA */
+.contact-form textarea.form-control {
+  height: auto;
+  resize: none;
+}
+
+/* FOCUS EFFECT */
+.contact-form .form-control:focus {
+  border-color: #2D3748;
+
+  box-shadow:
+    0 0 0 4px rgba(45, 55, 72, 0.12);
+
+  transform: translateY(-1px);
+}
+
+/* SPACING */
+.form-group {
+  margin-bottom: 22px;
+}
+
+/* BUTTON */
+.btn-primary-hover-outline {
+  width: 100%;
+
+  height: 52px;
+
+  border: none;
+
+  border-radius: 14px;
+
+  background: #2D3748;
+
+  color: white;
+
+  font-weight: 600;
+
+  font-size: 16px;
+
+  transition:
+    all 0.35s ease;
+
+  box-shadow:
+    0 10px 25px rgba(45, 55, 72, 0.25);
+}
+
+/* BUTTON HOVER */
+.btn-primary-hover-outline:hover {
+  background: #1f2937;
+
+  transform: translateY(-3px);
+
+  box-shadow:
+    0 15px 35px rgba(45, 55, 72, 0.35);
+}
+
+/* BUTTON CLICK */
+.btn-primary-hover-outline:active {
+  transform: scale(0.98);
+}
+
+/* ANIMATION */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+
+  .contact-form {
+    padding: 30px 22px;
+  }
+
+  .row .col-6 {
+    width: 100%;
+  }
+
+}

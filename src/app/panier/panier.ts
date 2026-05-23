@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CartService,CartItem } from '../cart';
+import { ViewChild } from '@angular/core';
+import { CartToastComponent } from '../shared/cart-toast/cart-toast';
 
 @Component({
   selector: 'app-panier',
@@ -11,8 +13,11 @@ import { CartService,CartItem } from '../cart';
   templateUrl: './panier.html',
   styleUrls: ['./panier.css']
 })
+@ViewChild(CartToastComponent)
+
 export class Panier implements OnInit {
   cartItems: CartItem[] = [];
+  toast!: CartToastComponent;
   
   constructor(
     private cartService: CartService,

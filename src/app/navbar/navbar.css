@@ -1,0 +1,267 @@
+/* =========================
+   NAVBAR
+========================= */
+
+.custom-navbar {
+    background: #2d3748 !important;
+    padding: 14px 0;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* LOGO */
+.navbar-brand img {
+    height: 48px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.navbar-brand img:hover {
+    transform: scale(1.05);
+}
+
+/* NAV LINKS */
+.custom-navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.82) !important;
+    font-size: 15px;
+    font-weight: 500;
+    margin: 0 10px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Hover effect */
+.custom-navbar-nav .nav-link:hover {
+    color: #ffffff !important;
+    transform: translateY(-1px);
+}
+
+/* Smooth underline */
+.custom-navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 0%;
+    height: 2px;
+    background: #ffffff;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.custom-navbar-nav .nav-link:hover::after {
+    width: 100%;
+}
+
+/* ICONS */
+.custom-navbar-cta .nav-link img {
+    width: 22px;
+    height: 22px;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.custom-navbar-cta .nav-link:hover img {
+    opacity: 1;
+    transform: scale(1.12);
+}
+
+/* MOBILE BUTTON */
+.navbar-toggler {
+    border: none;
+    box-shadow: none !important;
+}
+
+/* MOBILE MENU */
+@media (max-width: 768px) {
+
+    .custom-navbar {
+        padding: 12px 0;
+    }
+
+    .custom-navbar-nav {
+        margin-top: 20px;
+    }
+
+    .custom-navbar-nav .nav-link {
+        padding: 12px 0;
+        margin: 0;
+    }
+
+    .custom-navbar-cta {
+        margin-top: 16px;
+        flex-direction: row;
+        gap: 12px;
+    }
+}
+
+/* CART ITEM */
+.nav-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform 0.3s ease;
+}
+
+/* ICON */
+.nav-link img {
+    width: 26px;
+    height: 26px;
+
+    transition:
+        transform 0.35s ease,
+        filter 0.35s ease;
+}
+
+/* HOVER EFFECT */
+.nav-link:hover img {
+    transform: scale(1.12) rotate(-6deg);
+
+    filter:
+        drop-shadow(0 4px 10px rgba(0, 0, 0, 0.15));
+}
+
+/* BADGE */
+.cart-badge {
+    position: absolute;
+
+    top: -6px;
+    right: -10px;
+
+    min-width: 20px;
+    height: 20px;
+
+    padding: 0 6px;
+
+    border-radius: 999px;
+
+    background: linear-gradient(135deg,
+            #ff4d4d,
+            #ff1f1f);
+
+    color: white;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow:
+        0 4px 12px rgba(255, 0, 0, 0.25);
+
+    animation: badgePop 0.4s ease;
+
+    transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+/* BADGE HOVER */
+.nav-link:hover .cart-badge {
+    transform: scale(1.15);
+
+    box-shadow:
+        0 6px 18px rgba(255, 0, 0, 0.35);
+}
+
+/* POP ANIMATION */
+@keyframes badgePop {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    70% {
+        transform: scale(1.2);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* SEARCH BAR */
+.search-bar-wrapper {
+    flex: 1;
+    margin: 0 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    transition: all 0.3s ease;
+}
+
+.search-bar:focus-within {
+    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    padding: 10px 16px;
+    font-size: 14px;
+    outline: none;
+    background: white;
+    color: #333;
+}
+
+.search-input::placeholder {
+    color: #999;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #a2addd 0%, #2d3748  100%);
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    font-size: 13px;
+}
+
+.search-btn:hover {
+    background: linear-gradient(135deg, #2d3748  0%, #cfd5ee 100%);
+    transform: scale(1.02);
+}
+
+.search-btn:active {
+    transform: scale(0.98);
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+    .search-bar-wrapper {
+        margin: 15px 0;
+        max-width: 100%;
+    }
+
+    .search-bar {
+        max-width: 100%;
+    }
+
+    .search-input {
+        font-size: 13px;
+        padding: 8px 12px;
+    }
+
+    .search-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
